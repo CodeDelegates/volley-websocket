@@ -8,9 +8,8 @@ const cors = require('cors');
 const WebSocket = require('ws');
 
 const app = express();
+app.use(express.json());
 app.use(cors());
-app.use(express.static(path.join(__dirname, '/public')));
-
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 wss.on('connection', (ws) => {
@@ -20,12 +19,16 @@ wss.on('connection', (ws) => {
 			client.send(data.toString());
 		});
 	});
-	ws.on('close', function () {
-		//console.log('stopping client interval');
-		//clearInterval(id);
-	});
+	ws.on('close', function () {});
 });
+app.post('/', (req, res) => {
+	console.log(req.body);
+	wss.clients.forEach(function (client) {
+		client.send(JSON.stringify(req.body));
+	});
 
+	res.sendStatus(200);
+});
 server.listen(4000, function () {
 	console.log('Listening on http://0.0.0.0:4000');
 });
