@@ -3,10 +3,12 @@
 const express = require('express');
 const path = require('path');
 const { createServer } = require('http');
+const cors = require('cors');
 
 const WebSocket = require('ws');
 
 const app = express();
+app.use(cors());
 app.use(express.static(path.join(__dirname, '/public')));
 
 const server = createServer(app);
