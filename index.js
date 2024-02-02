@@ -13,12 +13,6 @@ app.use(cors());
 const server = createServer(app);
 const wss = new WebSocket.Server({ server });
 wss.on('connection', (ws) => {
-	ws.on('message', (data) => {
-		console.log('data received \n ' + data);
-		wss.clients.forEach(function (client) {
-			client.send(data.toString());
-		});
-	});
 	ws.on('close', function () {});
 });
 app.post('/', (req, res) => {
