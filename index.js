@@ -28,8 +28,7 @@ app.post('/', (req, res) => {
 			client.send(JSON.stringify(req.body));
 		});
 		res.sendStatus(200);
-	}
-	res.sendStatus(200);
+	} else res.sendStatus(400);
 });
 server.listen(4000, function () {
 	console.log('Listening on http://0.0.0.0:4000');
