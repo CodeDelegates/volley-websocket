@@ -22,11 +22,13 @@ wss.on('connection', (ws) => {
 	ws.on('close', function () {});
 });
 app.post('/', (req, res) => {
-	console.log(req.body);
-	wss.clients.forEach(function (client) {
-		client.send(JSON.stringify(req.body));
-	});
-
+	if ('invalidate' in req.body) {
+		console.log(req.body);
+		wss.clients.forEach(function (client) {
+			client.send(JSON.stringify(req.body));
+		});
+		res.sendStatus(200);
+	}
 	res.sendStatus(200);
 });
 server.listen(4000, function () {
